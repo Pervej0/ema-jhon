@@ -1,10 +1,10 @@
 import React from "react";
-import { getStorgae } from "../Storage/storage";
-import { ordered } from "./Ordered/ordered";
+import { getStorage } from "../../../../Storage/storage";
 
 const Cart = (props) => {
   const { cart } = props;
-  const storageProduct = getStorgae();
+  console.log(cart);
+  const storageProduct = getStorage();
   let orderCount = 0;
   for (let key in storageProduct) {
     orderCount += storageProduct[key];
@@ -12,8 +12,9 @@ const Cart = (props) => {
 
   let itemCost = 0;
   let shippingCost = 0;
+
   for (let item of cart) {
-    itemCost += item.price;
+    itemCost += item?.price;
     if (itemCost < 250) {
       shippingCost = (itemCost * 7) / 100;
     } else if (itemCost < 600) {
@@ -28,9 +29,6 @@ const Cart = (props) => {
   const tax = (TotalBeforeTax * 10) / 100;
   const orderTotal = TotalBeforeTax + tax;
 
-  const reviewClick = () => {
-    ordered(cart);
-  };
   return (
     <div>
       <h4 className="text-center">Order Summery</h4>
@@ -70,10 +68,7 @@ const Cart = (props) => {
         </tbody>
       </table>
       <div className="text-center mt-2">
-        <button
-          className="btn btn-warning fs-6 border border-dark px-5 py-1"
-          onClick={reviewClick}
-        >
+        <button className="btn btn-warning fs-6 border border-dark px-5 py-1">
           Review your order
         </button>
       </div>

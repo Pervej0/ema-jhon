@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Cart from "./Cart/Cart";
-import { getStorgae, sotrage } from "./Storage/storage";
+import { getStorage, sotrage } from "../../../Storage/storage";
 import Product from "./Product/Product";
+import useProduct from "../../../Hooks/useProduct";
 
 const Shop = () => {
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
+  // Search product and load product inject in to custome hook-
+  const [products, searchProduct, setSearchProduct] = useProduct();
   const [cart, setCart] = useState([]);
-  const [searchProduct, setSearchProduct] = useState([products]);
-  useEffect(
+  // const [searchProduct, setSearchProduct] = useState([products]);
+
+  /*  useEffect(
     () =>
-      fetch("./Products.JSON")
+      fetch("./Products.json")
         .then((res) => res.json())
         .then((data) => {
           setProducts(data);
           setSearchProduct(data);
         }),
     []
-  );
+  ); */
   const addToCartClick = (product) => {
     const newCart = [...cart, product];
     sotrage(product.key);
@@ -24,7 +28,7 @@ const Shop = () => {
   };
 
   useEffect(() => {
-    const keyLists = getStorgae();
+    const keyLists = getStorage();
     let productList = [];
     for (const key in keyLists) {
       const product = products.find((list) => list.key === key);
