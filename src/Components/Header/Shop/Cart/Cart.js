@@ -1,9 +1,10 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { getStorage } from "../../../../Storage/storage";
 
 const Cart = (props) => {
   const { cart } = props;
-  console.log(cart);
+  const { children } = props;
   const storageProduct = getStorage();
   let orderCount = 0;
   for (let key in storageProduct) {
@@ -67,11 +68,7 @@ const Cart = (props) => {
           </tr>
         </tbody>
       </table>
-      <div className="text-center mt-2">
-        <button className="btn btn-warning fs-6 border border-dark px-5 py-1">
-          Review your order
-        </button>
-      </div>
+      <div className="text-center mt-2">{children}</div>
     </div>
   );
 };

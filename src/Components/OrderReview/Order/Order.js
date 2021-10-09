@@ -2,7 +2,6 @@ import React from "react";
 
 const Order = (props) => {
   const { name, img, key, quantity } = props.products;
-  console.log(props.products);
   return (
     <>
       <div className="col-12 row justify-content-between align-items-center border-bottom p-4">

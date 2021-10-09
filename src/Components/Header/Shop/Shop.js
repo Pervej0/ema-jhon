@@ -3,6 +3,7 @@ import Cart from "./Cart/Cart";
 import { getStorage, sotrage } from "../../../Storage/storage";
 import Product from "./Product/Product";
 import useProduct from "../../../Hooks/useProduct";
+import { Link } from "react-router-dom";
 
 const Shop = () => {
   // const [products, setProducts] = useState([]);
@@ -69,7 +70,15 @@ const Shop = () => {
           ))}
         </div>
         <div className="cart-container col-3">
-          <Cart cart={cart} />
+          <Cart cart={cart}>
+            <Link
+              type="button"
+              className="btn btn-warning fs-6 border border-dark px-5 py-1"
+              to="/review"
+            >
+              Review Your Order
+            </Link>
+          </Cart>
         </div>
       </div>
     </div>

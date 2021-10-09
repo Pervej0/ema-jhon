@@ -39,4 +39,8 @@ const removeStorage = (key) => {
   }
 };
 
-export { sotrage, getStorage, setSotrage, removeStorage };
+const clearStorage = () => {
+  localStorage.removeItem("products");
+};
+
+export { sotrage, getStorage, setSotrage, removeStorage, clearStorage };
