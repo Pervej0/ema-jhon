@@ -18,9 +18,9 @@ const OrderReview = () => {
   };
 
   const orderClick = () => {
-    history.push("/order");
-    clearStorage();
-    console.log(history);
+    history.push("/shipping");
+    // clearStorage();
+    // console.log(history);
   };
 
   return (
@@ -43,7 +43,7 @@ const OrderReview = () => {
               onClick={() => orderClick()}
               className="btn btn-warning fs-6 border border-dark px-5 py-1"
             >
-              Place Order
+              Proceed to Order
             </button>
           </Cart>
         </div>

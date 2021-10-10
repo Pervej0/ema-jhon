@@ -1,8 +1,11 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
+import useFirebse from "../../Hooks/useFirebase";
 import logo from "../../images/logo.png";
 
 const Header = () => {
+  const { user, logOut } = useAuth();
   return (
     <header>
       <div className="text-center">
@@ -31,6 +34,30 @@ const Header = () => {
               Manage Inventroy
             </NavLink>
           </li>
+          {user && (
+            <li className="nav-item">
+              <span className="nav-link text-white px-0">
+                {user.displayName}
+              </span>
+            </li>
+          )}{" "}
+          {user ? (
+            <li className="nav-item">
+              <NavLink
+                to="/login"
+                onClick={logOut}
+                className="nav-link text-white"
+              >
+                Log out
+              </NavLink>
+            </li>
+          ) : (
+            <li className="nav-item">
+              <NavLink to="/login" className="nav-link text-white">
+                Login
+              </NavLink>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
