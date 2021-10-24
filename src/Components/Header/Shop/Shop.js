@@ -6,22 +6,9 @@ import useProduct from "../../../Hooks/useProduct";
 import { Link } from "react-router-dom";
 
 const Shop = () => {
-  // const [products, setProducts] = useState([]);
-  // Search product and load product inject in to custome hook-
   const [products, searchProduct, setSearchProduct] = useProduct();
   const [cart, setCart] = useState([]);
-  // const [searchProduct, setSearchProduct] = useState([products]);
 
-  /*  useEffect(
-    () =>
-      fetch("./Products.json")
-        .then((res) => res.json())
-        .then((data) => {
-          setProducts(data);
-          setSearchProduct(data);
-        }),
-    []
-  ); */
   const addToCartClick = (product) => {
     const newCart = [...cart, product];
     sotrage(product.key);
