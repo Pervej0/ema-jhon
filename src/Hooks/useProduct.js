@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 
 const useProduct = () => {
   const [products, setProducts] = useState([]);
-  const [searchProduct, setSearchProduct] = useState([products]);
+  const [searchProduct, setSearchProduct] = useState([]);
 
   useEffect(() => {
-    fetch("/products.json")
+    fetch(`http://localhost:5000/products`)
       .then((res) => res.json())
       .then((data) => {
-        setProducts(data);
-        setSearchProduct(data);
+        setProducts(data.products);
+        setSearchProduct(data.products);
       });
   }, []);
+
   return [products, searchProduct, setSearchProduct];
 };
 

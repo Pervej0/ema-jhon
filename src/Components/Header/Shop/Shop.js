@@ -6,11 +6,32 @@ import useProduct from "../../../Hooks/useProduct";
 import { Link } from "react-router-dom";
 
 const Shop = () => {
-  const [products, searchProduct, setSearchProduct] = useProduct();
+  const [page, setPage] = useState(0);
+  const [count, setCount] = useState(0);
+  const [products] = useProduct();
+  const [searchProduct, setSearchProduct] = useState([]);
+  const [productsItem, setProductsItem] = useState([]);
   const [cart, setCart] = useState([]);
+  const perPageItem = 10;
+  const totalPage = Math.ceil(count / perPageItem);
+
+  // load data for shop page-
+  useEffect(() => {
+    fetch(
+      `http://localhost:5000/products/?page=${page}&&perPage=${perPageItem}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setProductsItem(data.products);
+        setSearchProduct(data.products);
+        setCount(data.count);
+      });
+  }, [page]);
+  // console.log(productsItem);
 
   const addToCartClick = (product) => {
     const newCart = [...cart, product];
+    console.log(newCart);
     sotrage(product.key);
     setCart(newCart);
   };
@@ -19,20 +40,21 @@ const Shop = () => {
     const keyLists = getStorage();
     let productList = [];
     for (const key in keyLists) {
-      const product = products.find((list) => list.key === key);
-      products["quantity"] = keyLists[key];
+      const product = productsItem.find((list) => list.key === key);
+      productsItem["quantity"] = keyLists[key];
       productList.push(product);
     }
     if (productList[0]) {
       setCart(productList);
     }
-  }, [products]);
+  }, [productsItem]);
 
   const searchField = (event) => {
     const searchText = event.target.value;
-    const selectedProduct = products.filter((item) =>
+    const selectedProduct = productsItem.filter((item) =>
       item.name.toLowerCase().includes(searchText.toLowerCase())
     );
+
     setSearchProduct(selectedProduct);
   };
 
@@ -55,6 +77,19 @@ const Shop = () => {
               key={index}
             />
           ))}
+          <div className="pagination-field text-center my-5">
+            {[...Array(totalPage).keys()].map((number) => (
+              <button
+                key={number}
+                onClick={() => setPage(number)}
+                className={
+                  number === page ? "ms-3 px-2 btn-success" : "ms-3 px-2"
+                }
+              >
+                {number + 1}
+              </button>
+            ))}
+          </div>
         </div>
         <div className="cart-container col-3">
           <Cart cart={cart}>

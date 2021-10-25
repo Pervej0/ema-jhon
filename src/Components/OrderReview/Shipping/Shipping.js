@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import useAuth from "../../../Hooks/useAuth";
-import { clearStorage } from "../../../Storage/storage";
+import { clearStorage, getStorage } from "../../../Storage/storage";
 
 const Shipping = () => {
   const history = useHistory();
@@ -10,14 +10,31 @@ const Shipping = () => {
     register,
     handleSubmit,
     label,
+    reset,
     formState: { errors },
   } = useForm();
 
   const { user } = useAuth();
 
   const onSubmit = (data) => {
-    history.push("/order");
-    clearStorage();
+    const ordered = getStorage();
+    data.order = ordered;
+
+    fetch("http://localhost:5000/order", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged) {
+          alert("Your order successfully done. 😉");
+          reset();
+          clearStorage();
+          history.push("/order");
+        }
+      });
+
     console.log(data);
   };
 
@@ -44,6 +61,17 @@ const Shipping = () => {
         />
         {/* errors will return when field validation fails  */}
         {errors.email && (
+          <span className="text-danger d-block">This field is required</span>
+        )}
+        <label className="fw-bold my-2">Your Phone:</label>
+        <input
+          className="form-control"
+          defaultValue={user.number}
+          placeholder="Enter your phone no."
+          {...register("number", { required: true })}
+        />
+        {/* errors will return when field validation fails  */}
+        {errors.number && (
           <span className="text-danger d-block">This field is required</span>
         )}
         <div className="d-flex justify-content-between ">
