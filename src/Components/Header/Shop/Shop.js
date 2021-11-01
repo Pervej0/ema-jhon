@@ -70,7 +70,7 @@ const Shop = () => {
       </div>
       <div className="row px-5">
         <div className="prodocuts-container col-9 border-end">
-          {searchProduct.map((item, index) => (
+          {searchProduct?.map((item, index) => (
             <Product
               product={item}
               addToCartClick={addToCartClick}
