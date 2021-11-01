@@ -13,6 +13,7 @@ firebaseAuthentication();
 const useFirebse = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   const googleProvider = new GoogleAuthProvider();
   const auth = getAuth();
@@ -30,6 +31,7 @@ const useFirebse = () => {
       onAuthStateChanged(auth, (user) => {
         if (user) {
           setUser(user);
+          setIsLoading(false);
           getIdToken(user).then((idToken) =>
             localStorage.setItem("idToken", idToken)
           );
@@ -40,7 +42,7 @@ const useFirebse = () => {
     []
   );
 
-  return { user, error, googleSignIn, logOut };
+  return { user, error, isLoading, googleSignIn, logOut };
 };
 
 export default useFirebse;

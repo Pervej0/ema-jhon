@@ -3,18 +3,30 @@ import { Redirect, Route } from "react-router";
 import useAuth from "../../Hooks/useAuth";
 
 const PrivatRoute = ({ children, ...rest }) => {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
   return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        user ? (
-          children
-        ) : (
-          <Redirect to={{ pathname: "/login", state: { from: location } }} />
-        )
-      }
-    ></Route>
+    <>
+      {isLoading ? (
+        <div className="text-center">
+          <div className="spinner-grow" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      ) : (
+        <Route
+          {...rest}
+          render={({ location }) =>
+            user ? (
+              children
+            ) : (
+              <Redirect
+                to={{ pathname: "/login", state: { from: location } }}
+              />
+            )
+          }
+        />
+      )}
+    </>
   );
 };
 
