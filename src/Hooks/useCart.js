@@ -7,26 +7,28 @@ const useCart = () => {
   useEffect(() => {
     const getProducts = getStorage();
     const keys = Object.keys(getProducts);
-    fetch(`http://localhost:5000/products/keys`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(keys),
-    })
-      .then((res) => res.json())
-      .then((products) => {
-        const cartList = [];
-        for (const cartKey in getProducts) {
-          const addedProduct = products.find((item) => item.key === cartKey);
-          if (addedProduct) {
-            const quantity = getProducts[cartKey];
-            addedProduct.quantity = quantity;
+    if (keys) {
+      fetch(`http://localhost:5000/products/keys`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(keys),
+      })
+        .then((res) => res.json())
+        .then((products) => {
+          const cartList = [];
+          for (const cartKey in getProducts) {
+            const addedProduct = products.find((item) => item.key === cartKey);
+            if (addedProduct) {
+              const quantity = getProducts[cartKey];
+              addedProduct.quantity = quantity;
+            }
+            cartList.push(addedProduct);
           }
-          cartList.push(addedProduct);
-        }
-        setCart(cartList);
-      });
+          setCart(cartList);
+        });
+    }
   }, []);
 
   return [cart, setCart];

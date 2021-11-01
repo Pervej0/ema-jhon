@@ -3,6 +3,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
+  getIdToken,
   onAuthStateChanged,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
@@ -24,7 +25,20 @@ const useFirebse = () => {
     signOut(auth).then(() => {});
   };
 
-  useEffect(() => onAuthStateChanged(auth, (user) => setUser(user)), []);
+  useEffect(
+    () =>
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setUser(user);
+          getIdToken(user).then((idToken) =>
+            localStorage.setItem("idToken", idToken)
+          );
+        } else {
+          setUser(null);
+        }
+      }),
+    []
+  );
 
   return { user, error, googleSignIn, logOut };
 };

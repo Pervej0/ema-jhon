@@ -35,12 +35,19 @@ const Header = () => {
             </NavLink>
           </li>
           {user && (
-            <li className="nav-item">
-              <span className="nav-link text-white px-0">
-                {user.displayName}
-              </span>
-            </li>
-          )}{" "}
+            <>
+              <li className="nav-item">
+                <span className="nav-link text-white px-0">
+                  {user.displayName}
+                </span>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/myOrder" className="nav-link text-white">
+                  My Orders
+                </NavLink>
+              </li>
+            </>
+          )}
           {user ? (
             <li className="nav-item">
               <NavLink

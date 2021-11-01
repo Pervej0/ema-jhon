@@ -28,7 +28,7 @@ const OrderReview = () => {
       <div className="row px-5">
         <div className="prodocuts-container col-9 border-end">
           {cart[0]
-            ? cart.map((item) => (
+            ? cart?.map((item) => (
                 <Order
                   products={item}
                   removeClick={removeClick}
