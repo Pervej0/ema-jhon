@@ -6,7 +6,9 @@ const OrderedItem = () => {
   const [orders, setOrders] = useState([]);
   const { user } = useAuth();
   useEffect(() => {
-    fetch(`http://localhost:5000/order/${user.email}`)
+    fetch(`http://localhost:5000/order/${user.email}`, {
+      headers: { authorization: `bearer ${localStorage.getItem("idToken")}` },
+    })
       .then((res) => res.json())
       .then((data) => setOrders(data));
   }, []);
